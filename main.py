@@ -1,10 +1,10 @@
 #import PyQt5
 from PyQt5 import QtWidgets
-import main_window
+from main_window import Ui_Dialog
 import lang
 from sys import argv
 
-class MainWindow(QtWidgets.QMainWindow, main_window.Ui_Dialog):
+class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
     def __init__(self, parent=None):
         super().__init__()
         self.setupUi(self)
@@ -28,11 +28,17 @@ class MainWindow(QtWidgets.QMainWindow, main_window.Ui_Dialog):
         self.language = self.comboBox.currentText()
         self.exitButton.setText(self.languages[self.language]['exitButton'])
         self.mainLabel.setText(self.languages[self.language]['mainLabel'])
-        self.modeLabel.setText(self.languages[self.language]['modeLabel'])
-        self.homeButton.setText(self.languages[self.language]['homeButton'])
         self.homeButton.setText(self.languages[self.language]['homeButton'])
         self.examRButton.setText(self.languages[self.language]['examRButton'])
         self.techRButton.setText(self.languages[self.language]['teachRButton'])
+        self.addCheckBox.setText(self.languages[self.language]['addCheckBox'])
+        self.divCheckBox.setText(self.languages[self.language]['divCheckBox'])
+        self.multCheckBox.setText(self.languages[self.language]['multCheckBox'])
+        self.subCheckBox.setText(self.languages[self.language]['subCheckBox'])
+        self.startButton.setText(self.languages[self.language]['startButton'])
+        self.statButton.setText(self.languages[self.language]['statButton'])
+        self.modeGroup.setTitle(self.languages[self.language]['modeGroup'])
+        self.actionGroup.setTitle(self.languages[self.language]['actionGroup'])
 
     def main_menu(self):
         pass

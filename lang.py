@@ -1,17 +1,33 @@
 rus = {'exitButton': 'Выход',
        'mainLabel': 'Тренажер по математике',
-       'modeLabel': 'Режим',
+       'modeGroup': 'Режим',
+       'actionGroup': 'Действия',
        'homeButton': 'Главное меню',
        'examRButton': 'Проверка',
-       'teachRButton': 'Обучение'
-
+       'teachRButton': 'Обучение',
+       'addCheckBox': 'Сложение',
+       'subCheckBox': 'Вычитание',
+       'multCheckBox': 'Умножение',
+       'divCheckBox': 'Деление',
+       'nameCheckBox': 'Имя',
+       'startButton': 'Старт',
+       'statButton': 'Статистика'
        }
+
 eng = {'exitButton': 'Exit',
        'mainLabel': 'Mathematics simulator',
-       'modeLabel': 'Mode',
+       'modeGroup': 'Mode',
+       'actionGroup': 'Actions',
        'homeButton': 'Main menu',
-        'examRButton': 'Check',
-       'teachRButton': 'Training'
+       'examRButton': 'Check',
+       'teachRButton': 'Training',
+       'addCheckBox': 'Addition',
+       'subCheckBox': 'Subtraction',
+       'multCheckBox': 'Multiplication',
+       'divCheckBox': 'Division',
+       'nameCheckBox': 'Name',
+       'startButton': 'Start',
+       'statButton': 'Statistics'
        }
 
 languages = {'Русский': rus,
