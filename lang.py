@@ -7,12 +7,14 @@ rus = {'titleWindow': 'Тренажер по математике',
        'examRButton': 'Проверка',
        'teachRButton': 'Обучение',
        'addCheckBox': 'Сложение',
-       'subCheckBox': 'Вычитание',
+       'subCheckBox': 'Деление',
        'multCheckBox': 'Умножение',
-       'divCheckBox': 'Деление',
+       'divCheckBox': 'Вычитание',
        'nameCheckBox': 'Имя',
        'startButton': 'Старт',
-       'statButton': 'Статистика'
+       'statButton': 'Статистика',
+       'wrongAnswer': 'Не правильно. Правильный ответ ',
+       'noAction': 'Не выбрано действие'
        }
 
 eng = {'titleWindow': 'Mathematics simulator',
@@ -29,7 +31,9 @@ eng = {'titleWindow': 'Mathematics simulator',
        'divCheckBox': 'Division',
        'nameCheckBox': 'Name',
        'startButton': 'Start',
-       'statButton': 'Statistics'
+       'statButton': 'Statistics',
+       'wrongAnswer': 'Wrong answer. Correct answer ',
+       'noAction': 'No action select'
        }
 
 languages = {'Русский': rus,

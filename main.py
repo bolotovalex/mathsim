@@ -3,6 +3,7 @@ from PyQt5 import QtWidgets
 from main_window import Ui_Dialog
 import lang
 from sys import argv
+from random import randint
 
 class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
     def __init__(self, parent=None):
@@ -16,6 +17,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.change_language()
         self.comboBox.currentTextChanged.connect(self.change_language)
         self.actionLabel.hide()
+        self.addCheckBox.click()
         self.answerButton1.hide()
         self.answerButton2.hide()
         self.answerButton3.hide()
@@ -66,21 +68,47 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.labelLanguage.hide()
         self.comboBox.hide()
         self.actionLabel.show()
-        self.check_add = self.addCheckBox.isChecked()
-        self.check_div = self.divCheckBox.isChecked()
-        self.check_mult = self.multCheckBox.isChecked()
-        self.check_sub = self.subCheckBox.isChecked()
-        #self.start_action(self.check_add)
+        self.addCheckBox.isChecked()
+        self.divCheckBox.isChecked()
+        self.multCheckBox.isChecked()
+        self.subCheckBox.isChecked()
         self.actionLabel.show()
         self.answerButton1.show()
         self.answerButton2.show()
         self.answerButton3.show()
         self.answerLabel.show()
-        self.answerLabel.setText('')
+        self.answerLabel.setText(self.languages[self.language]['wrongAnswer'])
+        self.start_action()
 
     def start_action(self):
-        pass
+        if (self.addCheckBox.isChecked() is False and self.divCheckBox.isChecked() is False and
+                self.multCheckBox.isChecked() is False and self.subCheckBox.isChecked() is False):
+            self.actionLabel.hide()
+            self.answerButton1.hide()
+            self.answerButton2.hide()
+            self.answerButton3.hide()
+            self.answerLabel.setText(self.languages[self.language]['noAction'])
 
+        else:
+            self.list_action = []
+            if self.addCheckBox.isChecked() is True:
+                self.list_action.append('+')
+            if self.divCheckBox.isChecked() is True:
+                self.list_action.append('-')
+            if self.multCheckBox.isChecked() is True:
+                self.list_action.append('*')
+            if self.subCheckBox.isChecked() is True:
+                self.list_action.append('/')
+            self.action_index = self.list_action[randint(0, len(self.list_action) - 1)]
+            print(self.action_index)
+
+
+        self.answerButton1.clicked.connect(self.check_answer)
+        self.answerButton2.clicked.connect(self.check_answer)
+        self.answerButton3.clicked.connect(self.check_answer)
+
+    def check_answer(self):
+        print(True)
 
     def addition_action(self):
         pass
