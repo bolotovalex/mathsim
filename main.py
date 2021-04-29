@@ -15,6 +15,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
             self.comboBox.addItem(self.i)
         self.change_language()
         self.comboBox.currentTextChanged.connect(self.change_language)
+        self.actionLabel.hide()
+        self.answerButton1.hide()
+        self.answerButton2.hide()
+        self.answerButton3.hide()
+        self.answerLabel.hide()
         self.check_mode()
         self.main_menu()
 
@@ -45,8 +50,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.startButton.clicked.connect(self.start)
         self.homeButton.clicked.connect(self.home)
 
+
     def exit_action(self):
         self.close()
+
 
     def start(self):
         self.homeButton.show()
@@ -58,6 +65,27 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.lineLabel_2.hide()
         self.labelLanguage.hide()
         self.comboBox.hide()
+        self.actionLabel.show()
+        self.check_add = self.addCheckBox.isChecked()
+        self.check_div = self.divCheckBox.isChecked()
+        self.check_mult = self.multCheckBox.isChecked()
+        self.check_sub = self.subCheckBox.isChecked()
+        #self.start_action(self.check_add)
+        self.actionLabel.show()
+        self.answerButton1.show()
+        self.answerButton2.show()
+        self.answerButton3.show()
+        self.answerLabel.show()
+        self.answerLabel.setText('')
+
+    def start_action(self):
+        pass
+
+
+    def addition_action(self):
+        pass
+
+
 
     def home(self):
         self.homeButton.hide()
@@ -69,6 +97,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.lineLabel_2.show()
         self.labelLanguage.show()
         self.comboBox.show()
+        self.actionLabel.hide()
+        self.answerButton1.hide()
+        self.answerButton2.hide()
+        self.answerButton3.hide()
+        self.answerLabel.hide()
 
 
 
