@@ -1,12 +1,13 @@
-#import PyQt5
+# import PyQt5
 from PyQt5 import QtWidgets
 from main_window import Ui_Dialog
 import lang
 from sys import argv
 from random import randint
 
+
 class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
-    def __init__(self, parent=None):
+    def __init__(self):
         super().__init__()
         self.setupUi(self)
         self.exitButton.clicked.connect(self.exit_action)
@@ -16,6 +17,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
             self.comboBox.addItem(self.i)
         self.change_language()
         self.comboBox.currentTextChanged.connect(self.change_language)
+        self.answer_button_group = [self.answerButton1, self.answerButton2, self.answerButton3]
         self.actionLabel.hide()
         self.addCheckBox.click()
         self.answerButton1.hide()
@@ -27,7 +29,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
 
     def check_mode(self):
         self.is_exam = self.examRButton.isChecked()
-        #print(self.is_exam)
+        # print(self.is_exam)
 
     def change_language(self):
         self.language = self.comboBox.currentText()
@@ -47,15 +49,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.setWindowTitle(self.languages[self.language]['titleWindow'])
 
     def main_menu(self):
+        """Create main menu button"""
+
         self.homeButton.hide()
         self.examRButton.toggled.connect(self.check_mode)
         self.startButton.clicked.connect(self.start)
         self.homeButton.clicked.connect(self.home)
 
-
     def exit_action(self):
         self.close()
-
 
     def start(self):
         self.homeButton.show()
@@ -77,10 +79,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.answerButton2.show()
         self.answerButton3.show()
         self.answerLabel.show()
-        self.answerLabel.setText(self.languages[self.language]['wrongAnswer'])
+        self.answerLabel.setText('')
+        self.answerButton1.clicked.connect(self.check_answer)
+        self.answerButton2.clicked.connect(self.check_answer)
+        self.answerButton3.clicked.connect(self.check_answer)
         self.start_action()
 
     def start_action(self):
+        """Main function."""
+
+        self.answerLabel.setText('')  # Clear wrong answer message
+
+        # Check checkboxes. If not checked - hide button and show no action text
         if (self.addCheckBox.isChecked() is False and self.divCheckBox.isChecked() is False and
                 self.multCheckBox.isChecked() is False and self.subCheckBox.isChecked() is False):
             self.actionLabel.hide()
@@ -99,21 +109,55 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
                 self.list_action.append('*')
             if self.subCheckBox.isChecked() is True:
                 self.list_action.append('/')
-            self.action_index = self.list_action[randint(0, len(self.list_action) - 1)]
-            print(self.action_index)
 
+            self.action = self.list_action[randint(0, len(self.list_action) - 1)]  # Check number of actions
 
-        self.answerButton1.clicked.connect(self.check_answer)
-        self.answerButton2.clicked.connect(self.check_answer)
-        self.answerButton3.clicked.connect(self.check_answer)
+            if self.action == '+' or self.action == '*':
+                self.first_digit = randint(2, 10)
+                self.sec_digit = randint(2, 10)
+                self.actionLabel.setText(
+                    f"{self.first_digit} {self.action} {self.sec_digit}")  # Show Digit and action on actionLabel
+
+                self.list_answer = [0 for self.i in
+                                    range(3)]  # Create answer list for right and wrond asnwer for button
+
+                if self.action == '+':
+                    self.answer = int(self.first_digit) + int(self.sec_digit)
+                else:
+                    self.answer = int(self.first_digit) * int(self.sec_digit)
+
+                for self.i in 0, 1, 2:
+                    while True:
+                        self.wrong_answer = self.answer + randint(-1 * int(self.first_digit), int(self.first_digit))
+                        # If answer in list or == right answer -> continue
+                        if self.wrong_answer == self.answer or self.wrong_answer in self.list_answer:
+                            continue
+                        elif self.wrong_answer <= 0:
+                            continue
+                        else:
+                            self.list_answer[self.i] = self.wrong_answer
+                            break
+                self.correct_button_index = randint(0, 2)
+                self.list_answer[self.correct_button_index] = self.answer
+
+        self.create_answer_button()
+
+    def create_answer_button(self):
+        """Create text on answer button"""
+
+        for i in range(0, 3):
+            self.answer_button_group[i].setText(str(self.list_answer[i]))
 
     def check_answer(self):
-        print(True)
+        """Check answer when button clicked"""
+        sender = self.sender()
+        if sender.objectName() == self.answer_button_group[self.correct_button_index].objectName():
+            self.start_action()
+        else:
+            self.answerLabel.setText(f'{self.languages[self.language]["wrongAnswer"]}')
 
     def addition_action(self):
         pass
-
-
 
     def home(self):
         self.homeButton.hide()
@@ -132,12 +176,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.answerLabel.hide()
 
 
-
 def main():
     app = QtWidgets.QApplication(argv)  # Новый экземпляр QApplication
     window = MainWindow()  # Создаём объект класса ExampleApp
     window.show()  # Показываем окно
     app.exec_()  # и запускаем приложение
+
 
 if __name__ == "__main__":
     main()
