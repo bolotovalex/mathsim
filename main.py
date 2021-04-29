@@ -11,8 +11,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.exitButton.clicked.connect(self.exit_action)
         self.languages = lang.languages
         self.comboBox.clear()
-        self.homeButton.hide()
-        self.examRButton.toggled.connect(self.check_mode)
+
+
         for self.i in self.languages.keys():
             self.comboBox.addItem(self.i)
         self.change_language()
@@ -39,12 +39,19 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.statButton.setText(self.languages[self.language]['statButton'])
         self.modeGroup.setTitle(self.languages[self.language]['modeGroup'])
         self.actionGroup.setTitle(self.languages[self.language]['actionGroup'])
+        self.setWindowTitle(self.languages[self.language]['titleWindow'])
 
     def main_menu(self):
-        pass
+        self.homeButton.hide()
+        self.examRButton.toggled.connect(self.check_mode)
+        self.clearButton.clicked.connect(self.clear)
 
     def exit_action(self):
         self.close()
+
+    def clear(self):
+        pass
+        #self.
 
 
 def main():

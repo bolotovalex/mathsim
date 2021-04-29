@@ -1,4 +1,5 @@
-rus = {'exitButton': 'Выход',
+rus = {'titleWindow': 'Тренажер по математике',
+       'exitButton': 'Выход',
        'mainLabel': 'Тренажер по математике',
        'modeGroup': 'Режим',
        'actionGroup': 'Действия',
@@ -14,7 +15,8 @@ rus = {'exitButton': 'Выход',
        'statButton': 'Статистика'
        }
 
-eng = {'exitButton': 'Exit',
+eng = {'titleWindow': 'Mathematics simulator',
+       'exitButton': 'Exit',
        'mainLabel': 'Mathematics simulator',
        'modeGroup': 'Mode',
        'actionGroup': 'Actions',
