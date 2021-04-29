@@ -128,7 +128,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
 
                 for self.i in 0, 1, 2:
                     while True:
-                        self.wrong_answer = self.answer + randint(-1 * int(self.first_digit), int(self.first_digit))
+                        self.wrong_answer = self.answer + randint(-2, 2)
                         # If answer in list or == right answer -> continue
                         if self.wrong_answer == self.answer or self.wrong_answer in self.list_answer:
                             continue
