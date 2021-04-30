@@ -154,7 +154,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         if sender.objectName() == self.answer_button_group[self.correct_button_index].objectName():
             self.start_action()
         else:
-            self.answerLabel.setText(f'{self.languages[self.language]["wrongAnswer"]}')
+            self.answerLabel.setText(f'{self.languages[self.language]["wrongAnswer"]} {self.answer}')
 
     def addition_action(self):
         pass

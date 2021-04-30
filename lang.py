@@ -13,7 +13,7 @@ rus = {'titleWindow': 'Тренажер по математике',
        'nameCheckBox': 'Имя',
        'startButton': 'Старт',
        'statButton': 'Статистика',
-       'wrongAnswer': 'Не правильно. Правильный ответ ',
+       'wrongAnswer': 'Не правильно. Правильный ответ',
        'noAction': 'Не выбрано действие'
        }
 
@@ -32,7 +32,7 @@ eng = {'titleWindow': 'Mathematics simulator',
        'nameCheckBox': 'Name',
        'startButton': 'Start',
        'statButton': 'Statistics',
-       'wrongAnswer': 'Wrong answer. Correct answer ',
+       'wrongAnswer': 'Wrong answer. Correct answer',
        'noAction': 'No action select'
        }
 
