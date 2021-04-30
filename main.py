@@ -111,34 +111,55 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
                 self.list_action.append('/')
 
             self.action = self.list_action[randint(0, len(self.list_action) - 1)]  # Check number of actions
+            self.list_answer = [0 for self.i in
+                                range(3)]  # Create answer list for right and wrong answer for button
 
+            #If checked addition and/or multiplication checkbox
             if self.action == '+' or self.action == '*':
                 self.first_digit = randint(2, 10)
                 self.sec_digit = randint(2, 10)
                 self.actionLabel.setText(
                     f"{self.first_digit} {self.action} {self.sec_digit}")  # Show Digit and action on actionLabel
 
-                self.list_answer = [0 for self.i in
-                                    range(3)]  # Create answer list for right and wrond asnwer for button
-
+                #If check addition
                 if self.action == '+':
                     self.answer = int(self.first_digit) + int(self.sec_digit)
+
+                #if check multilplication
                 else:
                     self.answer = int(self.first_digit) * int(self.sec_digit)
 
-                for self.i in 0, 1, 2:
-                    while True:
-                        self.wrong_answer = self.answer + randint(-2, 2)
-                        # If answer in list or == right answer -> continue
-                        if self.wrong_answer == self.answer or self.wrong_answer in self.list_answer:
-                            continue
-                        elif self.wrong_answer <= 0:
-                            continue
-                        else:
-                            self.list_answer[self.i] = self.wrong_answer
-                            break
-                self.correct_button_index = randint(0, 2)
-                self.list_answer[self.correct_button_index] = self.answer
+            elif self.action == '-':
+                self.first_digit = randint(3,20)
+                while True:
+                    self.sec_digit = randint(2,19)
+                    if self.sec_digit >= self.first_digit - 1:
+                        continue
+                    else:
+                        break
+                self.actionLabel.setText(
+                    f"{self.first_digit} {self.action} {self.sec_digit}")  # Show Digit and action on actionLabel
+                self.answer = int(self.first_digit) - int(self.sec_digit)
+
+
+
+
+
+            #Create list with wrong digits
+            for self.i in 0, 1, 2:
+                while True:
+                    self.wrong_answer = self.answer + randint(-2, 2)
+                    # If answer in list or == right answer -> continue
+                    if self.wrong_answer == self.answer or self.wrong_answer in self.list_answer:
+                        continue
+                    elif self.wrong_answer <= 0:
+                        continue
+                    else:
+                        self.list_answer[self.i] = self.wrong_answer
+                        break
+            #Create coorect
+            self.correct_button_index = randint(0, 2)
+            self.list_answer[self.correct_button_index] = self.answer
 
         self.create_answer_button()
 
@@ -156,8 +177,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         else:
             self.answerLabel.setText(f'{self.languages[self.language]["wrongAnswer"]} {self.answer}')
 
-    def addition_action(self):
-        pass
 
     def home(self):
         self.homeButton.hide()
