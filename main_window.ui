@@ -465,14 +465,14 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>370</y>
+     <y>280</y>
      <width>581</width>
      <height>41</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>22</pointsize>
+     <pointsize>18</pointsize>
     </font>
    </property>
    <property name="text">
@@ -482,6 +482,97 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
+  <widget class="QLabel" name="labelRightCount">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>360</y>
+     <width>161</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>labelRightCount</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelWrongCount">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>390</y>
+     <width>191</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>labelWrongCount</string>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="resultGroupBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>330</y>
+     <width>211</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="title">
+    <string>resultGroupBox</string>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="messageGroupBox">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>280</y>
+     <width>621</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string/>
+   </property>
+  </widget>
+  <zorder>resultGroupBox</zorder>
+  <zorder>homeButton</zorder>
+  <zorder>mainLabel</zorder>
+  <zorder>exitButton</zorder>
+  <zorder>comboBox</zorder>
+  <zorder>labelLanguage</zorder>
+  <zorder>lineLabel</zorder>
+  <zorder>lineLabel_2</zorder>
+  <zorder>startButton</zorder>
+  <zorder>actionGroup</zorder>
+  <zorder>modeGroup</zorder>
+  <zorder>vline</zorder>
+  <zorder>statButton</zorder>
+  <zorder>lineLabel_3</zorder>
+  <zorder>actionLabel</zorder>
+  <zorder>answerButton1</zorder>
+  <zorder>answerButton2</zorder>
+  <zorder>answerButton3</zorder>
+  <zorder>answerLabel</zorder>
+  <zorder>labelRightCount</zorder>
+  <zorder>labelWrongCount</zorder>
+  <zorder>labelWrongCount</zorder>
+  <zorder>labelRightCount</zorder>
+  <zorder>messageGroupBox</zorder>
  </widget>
  <resources/>
  <connections/>

@@ -15,6 +15,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.comboBox.clear()
         for self.i in self.languages.keys():
             self.comboBox.addItem(self.i)
+        self.right_count = 0
+        self.wrong_count = 0
+        self.stateCount = True
         self.change_language()
         self.comboBox.currentTextChanged.connect(self.change_language)
         self.answer_button_group = [self.answerButton1, self.answerButton2, self.answerButton3]
@@ -24,12 +27,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.answerButton2.hide()
         self.answerButton3.hide()
         self.answerLabel.hide()
+        self.messageGroupBox.hide()
         self.check_mode()
         self.main_menu()
 
     def check_mode(self):
         self.is_exam = self.examRButton.isChecked()
-        # print(self.is_exam)
 
     def change_language(self):
         self.language = self.comboBox.currentText()
@@ -47,6 +50,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.modeGroup.setTitle(self.languages[self.language]['modeGroup'])
         self.actionGroup.setTitle(self.languages[self.language]['actionGroup'])
         self.setWindowTitle(self.languages[self.language]['titleWindow'])
+        self.resultGroupBox.setTitle(self.languages[self.language]['resultGroupBox'])
+        self.labelRightCount.setText(f"{self.languages[self.language]['labelRightCount']}: {self.right_count}")
+        self.labelWrongCount.setText(f"{self.languages[self.language]['labelWrongCount']}: {self.wrong_count}")
 
     def main_menu(self):
         """Create main menu button"""
@@ -83,12 +89,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.answerButton1.clicked.connect(self.check_answer)
         self.answerButton2.clicked.connect(self.check_answer)
         self.answerButton3.clicked.connect(self.check_answer)
+        self.messageGroupBox.show()
         self.start_action()
 
     def start_action(self):
         """Main function."""
 
         self.answerLabel.setText('')  # Clear wrong answer message
+        self.labelRightCount.setText(f"{self.languages[self.language]['labelRightCount']}: {self.right_count}")
+        self.labelWrongCount.setText(f"{self.languages[self.language]['labelWrongCount']}: {self.wrong_count}")
 
         # Check checkboxes. If not checked - hide button and show no action text
         if (self.addCheckBox.isChecked() is False and self.divCheckBox.isChecked() is False and
@@ -176,9 +185,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         """Check answer when button clicked"""
         sender = self.sender()
         if sender.objectName() == self.answer_button_group[self.correct_button_index].objectName():
+            if self.stateCount is not False:
+                self.right_count += 1
+            self.stateCount = True
             self.start_action()
         else:
             self.answerLabel.setText(f'{self.languages[self.language]["wrongAnswer"]} {self.answer}')
+            if self.stateCount is False:
+                pass
+            else:
+                self.wrong_count += 1
+            self.stateCount = False
 
 
     def home(self):
