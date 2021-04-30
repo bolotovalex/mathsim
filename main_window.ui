@@ -197,9 +197,9 @@
   <widget class="QGroupBox" name="actionGroup">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>330</x>
      <y>70</y>
-     <width>281</width>
+     <width>291</width>
      <height>151</height>
     </rect>
    </property>
@@ -277,7 +277,7 @@
     <rect>
      <x>20</x>
      <y>70</y>
-     <width>281</width>
+     <width>291</width>
      <height>151</height>
     </rect>
    </property>
@@ -289,61 +289,48 @@
    <property name="title">
     <string>modeGroup</string>
    </property>
-   <widget class="QWidget" name="layoutWidget">
+   <widget class="QRadioButton" name="techRButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>259</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>teachRadioButton</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="examRButton">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>30</y>
-      <width>261</width>
-      <height>61</height>
+      <width>259</width>
+      <height>23</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QRadioButton" name="examRButton">
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>examRadioButton</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="techRButton">
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>teachRadioButton</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>examRadioButton</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
    </widget>
-  </widget>
-  <widget class="Line" name="vline">
-   <property name="geometry">
-    <rect>
-     <x>310</x>
-     <y>70</y>
-     <width>20</width>
-     <height>151</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Vertical</enum>
-   </property>
   </widget>
   <widget class="QPushButton" name="statButton">
    <property name="geometry">
@@ -560,7 +547,6 @@
   <zorder>startButton</zorder>
   <zorder>actionGroup</zorder>
   <zorder>modeGroup</zorder>
-  <zorder>vline</zorder>
   <zorder>statButton</zorder>
   <zorder>lineLabel_3</zorder>
   <zorder>actionLabel</zorder>

@@ -71,7 +71,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.actionGroup.hide()
         self.startButton.hide()
         self.statButton.hide()
-        self.vline.hide()
+        #self.vline.hide()
         self.lineLabel_2.hide()
         self.labelLanguage.hide()
         self.comboBox.hide()
@@ -190,7 +190,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
             self.stateCount = True
             self.start_action()
         else:
-            self.answerLabel.setText(f'{self.languages[self.language]["wrongAnswer"]} {self.answer}')
+            self.answerLabel.setText(f'{self.languages[self.language]["wrongAnswer"]} {int(self.answer)}')
             if self.stateCount is False:
                 pass
             else:
@@ -204,7 +204,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.actionGroup.show()
         self.startButton.show()
         self.statButton.show()
-        self.vline.show()
+        #self.vline.show()
         self.lineLabel_2.show()
         self.labelLanguage.show()
         self.comboBox.show()
@@ -213,6 +213,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.answerButton2.hide()
         self.answerButton3.hide()
         self.answerLabel.hide()
+        self.messageGroupBox.hide()
 
 
 def main():
