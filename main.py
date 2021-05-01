@@ -11,7 +11,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         super().__init__()
         self.setupUi(self)
         self.exitButton.clicked.connect(self.exit_action)
-        self.examRButton.toggled.connect(self.check_mode)
+        #self.examRButton.toggled.connect(self.check_mode)
         self.startButton.clicked.connect(self.start)
         self.homeButton.clicked.connect(self.home)
         self.answerButton1.clicked.connect(self.check_answer)
@@ -35,11 +35,25 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.answerLabel.hide()
         self.messageGroupBox.hide()
         self.counter = 0
-        self.check_mode()
-        self.main_menu()
+        self.homeButton.hide()
+        self.techRButton.hide()
 
-    def check_mode(self):
-        self.is_exam = self.examRButton.isChecked()
+    def home(self):
+        self.homeButton.hide()
+        self.modeGroup.show()
+        self.actionGroup.show()
+        self.startButton.show()
+        self.statButton.show()
+        #self.vline.show()
+        self.lineLabel_2.show()
+        self.labelLanguage.show()
+        self.comboBox.show()
+        self.actionLabel.hide()
+        self.answerButton1.hide()
+        self.answerButton2.hide()
+        self.answerButton3.hide()
+        self.answerLabel.hide()
+        self.messageGroupBox.hide()
 
     def change_language(self):
         self.language = self.comboBox.currentText()
@@ -49,9 +63,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.examRButton.setText(self.languages[self.language]['examRButton'])
         self.techRButton.setText(self.languages[self.language]['teachRButton'])
         self.addCheckBox.setText(self.languages[self.language]['addCheckBox'])
-        self.divCheckBox.setText(self.languages[self.language]['divCheckBox'])
-        self.multCheckBox.setText(self.languages[self.language]['multCheckBox'])
         self.subCheckBox.setText(self.languages[self.language]['subCheckBox'])
+        self.multCheckBox.setText(self.languages[self.language]['multCheckBox'])
+        self.divCheckBox.setText(self.languages[self.language]['divCheckBox'])
         self.startButton.setText(self.languages[self.language]['startButton'])
         self.statButton.setText(self.languages[self.language]['statButton'])
         self.modeGroup.setTitle(self.languages[self.language]['modeGroup'])
@@ -60,12 +74,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.resultGroupBox.setTitle(self.languages[self.language]['resultGroupBox'])
         self.labelRightCount.setText(f"{self.languages[self.language]['labelRightCount']}: {self.right_count}")
         self.labelWrongCount.setText(f"{self.languages[self.language]['labelWrongCount']}: {self.wrong_count}")
-
-    def main_menu(self):
-        """Create main menu button"""
-
-        self.homeButton.hide()
-
 
     def exit_action(self):
         self.close()
@@ -82,9 +90,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.comboBox.hide()
         self.actionLabel.show()
         self.addCheckBox.isChecked()
-        self.divCheckBox.isChecked()
-        self.multCheckBox.isChecked()
         self.subCheckBox.isChecked()
+        self.multCheckBox.isChecked()
+        self.divCheckBox.isChecked()
         self.actionLabel.show()
         self.answerButton1.show()
         self.answerButton2.show()
@@ -115,12 +123,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
             self.list_action = []
             if self.addCheckBox.isChecked() is True:
                 self.list_action.append('+')
-            if self.divCheckBox.isChecked() is True:
+            if self.subCheckBox.isChecked() is True:
                 self.list_action.append('-')
             if self.multCheckBox.isChecked() is True:
                 self.list_action.append('*')
-            if self.subCheckBox.isChecked() is True:
+            if self.divCheckBox.isChecked() is True:
                 self.list_action.append('/')
+
 
             self.action = self.list_action[randint(0, len(self.list_action) - 1)]  # Check number of actions
             self.list_answer = [0 for self.i in
@@ -205,22 +214,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
             self.stateCount = False
 
 
-    def home(self):
-        self.homeButton.hide()
-        self.modeGroup.show()
-        self.actionGroup.show()
-        self.startButton.show()
-        self.statButton.show()
-        #self.vline.show()
-        self.lineLabel_2.show()
-        self.labelLanguage.show()
-        self.comboBox.show()
-        self.actionLabel.hide()
-        self.answerButton1.hide()
-        self.answerButton2.hide()
-        self.answerButton3.hide()
-        self.answerLabel.hide()
-        self.messageGroupBox.hide()
+
 
 
 def main():

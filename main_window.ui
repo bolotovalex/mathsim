@@ -234,14 +234,14 @@
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="divCheckBox">
+      <widget class="QCheckBox" name="subCheckBox">
        <property name="font">
         <font>
          <pointsize>12</pointsize>
         </font>
        </property>
        <property name="text">
-        <string>divCheckBox</string>
+        <string>subCheckBox</string>
        </property>
       </widget>
      </item>
@@ -258,14 +258,14 @@
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="subCheckBox">
+      <widget class="QCheckBox" name="divCheckBox">
        <property name="font">
         <font>
          <pointsize>12</pointsize>
         </font>
        </property>
        <property name="text">
-        <string>subCheckBox</string>
+        <string>divCheckBox</string>
        </property>
       </widget>
      </item>
@@ -554,8 +554,6 @@
   <zorder>answerButton2</zorder>
   <zorder>answerButton3</zorder>
   <zorder>answerLabel</zorder>
-  <zorder>labelRightCount</zorder>
-  <zorder>labelWrongCount</zorder>
   <zorder>labelWrongCount</zorder>
   <zorder>labelRightCount</zorder>
   <zorder>messageGroupBox</zorder>
