@@ -11,6 +11,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         super().__init__()
         self.setupUi(self)
         self.exitButton.clicked.connect(self.exit_action)
+        self.examRButton.toggled.connect(self.check_mode)
+        self.startButton.clicked.connect(self.start)
+        self.homeButton.clicked.connect(self.home)
+        self.answerButton1.clicked.connect(self.check_answer)
+        self.answerButton2.clicked.connect(self.check_answer)
+        self.answerButton3.clicked.connect(self.check_answer)
         self.languages = lang.languages
         self.comboBox.clear()
         for self.i in self.languages.keys():
@@ -28,6 +34,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.answerButton3.hide()
         self.answerLabel.hide()
         self.messageGroupBox.hide()
+        self.counter = 0
         self.check_mode()
         self.main_menu()
 
@@ -58,9 +65,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         """Create main menu button"""
 
         self.homeButton.hide()
-        self.examRButton.toggled.connect(self.check_mode)
-        self.startButton.clicked.connect(self.start)
-        self.homeButton.clicked.connect(self.home)
+
 
     def exit_action(self):
         self.close()
@@ -86,9 +91,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.answerButton3.show()
         self.answerLabel.show()
         self.answerLabel.setText('')
-        self.answerButton1.clicked.connect(self.check_answer)
-        self.answerButton2.clicked.connect(self.check_answer)
-        self.answerButton3.clicked.connect(self.check_answer)
+
         self.messageGroupBox.show()
         self.start_action()
 
@@ -141,11 +144,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
             elif self.action == '-':
                 self.first_digit = randint(3,20)
                 while True:
-                    self.sec_digit = randint(2,19)
+                    if self.first_digit == 3:
+                        self.sec_digit = randint(1,self.first_digit)
+                    else:
+                        self.sec_digit = randint(2, self.first_digit)
                     if self.sec_digit >= self.first_digit - 1:
                         continue
                     else:
                         break
+
                 self.actionLabel.setText(
                     f"{self.first_digit} {self.action} {self.sec_digit}")  # Show Digit and action on actionLabel
                 self.answer = int(self.first_digit) - int(self.sec_digit)
