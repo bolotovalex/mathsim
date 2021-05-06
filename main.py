@@ -4,6 +4,7 @@ from main_window import Ui_Dialog
 import lang
 from sys import argv
 from random import randint
+#import json
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
@@ -11,9 +12,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         super().__init__()
         self.setupUi(self)
         self.exitButton.clicked.connect(self.exit_action)
-        # self.examRButton.toggled.connect(self.check_mode)
-        self.startButton.clicked.connect(self.start_button)
-        self.homeButton.clicked.connect(self.home_button)
+        #self.examRButton.toggled.connect(self.check_mode)
+        self.startButton.clicked.connect(self.start)
+        self.homeButton.clicked.connect(self.home)
         self.answerButton1.clicked.connect(self.check_answer)
         self.answerButton2.clicked.connect(self.check_answer)
         self.answerButton3.clicked.connect(self.check_answer)
@@ -29,15 +30,20 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.answer_button_group = [self.answerButton1, self.answerButton2, self.answerButton3]
         self.addCheckBox.click()
         self.counter = 0
-        self.home_button()
+        #print(json.dumps(self.languages, indent=4))
+        #with open('lang.json', 'w', encoding='utf8') as f:
+        #    f.write(json.dumps(self.languages, indent=4, sort_keys=True))
+        #    f.close()
+        self.home()
 
-    def home_button(self):
+
+    def home(self):
         self.homeButton.hide()
         self.modeGroup.show()
         self.actionGroup.show()
         self.startButton.show()
         self.statButton.show()
-        # self.vline.show()
+        #self.vline.show()
         self.lineLabel_2.show()
         self.labelLanguage.show()
         self.comboBox.show()
@@ -50,42 +56,59 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.answerButton1.hide()
         self.answerButton2.hide()
         self.answerButton3.hide()
-        self.actionLabel.hide()
         self.answerLabel.hide()
-        self.messageGroupBox.hide()
+        self.actionLabel.hide()
         self.homeButton.hide()
         self.techRButton.hide()
+        self.messageGroupBox.hide()
+        self.userGroupBox.show()
+        self.statButton.hide()
 
     def change_language(self):
         self.language = self.comboBox.currentText()
-        self.exitButton.setText(self.languages[self.language]['exitButton'])
+
+        #  Title window
+        self.setWindowTitle(self.languages[self.language]['titleWindow'])
+
+        #  Main Lbael
         self.mainLabel.setText(self.languages[self.language]['mainLabel'])
+
+        #  Buttons
+        self.exitButton.setText(self.languages[self.language]['exitButton'])
         self.homeButton.setText(self.languages[self.language]['homeButton'])
-        self.examRButton.setText(self.languages[self.language]['examRButton'])
+        self.startButton.setText(self.languages[self.language]['startButton'])
         self.techRButton.setText(self.languages[self.language]['teachRButton'])
+        self.statButton.setText(self.languages[self.language]['statButton'])
+
+        #  Action group box
+        self.actionGroup.setTitle(self.languages[self.language]['actionGroup'])
         self.addCheckBox.setText(self.languages[self.language]['addCheckBox'])
         self.subCheckBox.setText(self.languages[self.language]['subCheckBox'])
         self.multCheckBox.setText(self.languages[self.language]['multCheckBox'])
         self.divCheckBox.setText(self.languages[self.language]['divCheckBox'])
-        self.startButton.setText(self.languages[self.language]['startButton'])
-        self.statButton.setText(self.languages[self.language]['statButton'])
+
+        # Mode group box
         self.modeGroup.setTitle(self.languages[self.language]['modeGroup'])
-        self.actionGroup.setTitle(self.languages[self.language]['actionGroup'])
-        self.setWindowTitle(self.languages[self.language]['titleWindow'])
+        self.examRButton.setText(self.languages[self.language]['examRButton'])
+
+        #  Result Group box
         self.resultGroupBox.setTitle(self.languages[self.language]['resultGroupBox'])
         self.labelRightCount.setText(f"{self.languages[self.language]['labelRightCount']}: {self.right_count}")
         self.labelWrongCount.setText(f"{self.languages[self.language]['labelWrongCount']}: {self.wrong_count}")
 
+        # User group box
+        self.userGroupBox.setTitle(self.languages[self.language]['userGroupBox'])
+
     def exit_action(self):
         self.close()
 
-    def start_button(self):
+    def start(self):
         self.homeButton.show()
         self.modeGroup.hide()
         self.actionGroup.hide()
         self.startButton.hide()
         self.statButton.hide()
-        # self.vline.hide()
+        #self.vline.hide()
         self.lineLabel_2.hide()
         self.labelLanguage.hide()
         self.comboBox.hide()
@@ -100,7 +123,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.answerButton3.show()
         self.answerLabel.show()
         self.answerLabel.setText('')
-
+        self.userGroupBox.hide()
         self.messageGroupBox.show()
         self.start_action()
 
@@ -119,6 +142,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
             self.answerButton2.hide()
             self.answerButton3.hide()
             self.answerLabel.setText(self.languages[self.language]['noAction'])
+
         else:
             self.list_action = []
             if self.addCheckBox.isChecked() is True:
@@ -129,35 +153,39 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
                 self.list_action.append('*')
             if self.divCheckBox.isChecked() is True:
                 self.list_action.append('/')
+
+
             self.action = self.list_action[randint(0, len(self.list_action) - 1)]  # Check number of actions
             self.list_answer = [0 for self.i in
                                 range(3)]  # Create answer list for right and wrong answer for button
 
-            # If checked addition and/or multiplication checkbox
+            #If checked addition and/or multiplication checkbox
             if self.action == '+' or self.action == '*':
                 self.first_digit = randint(2, 10)
                 self.sec_digit = randint(2, 10)
                 self.actionLabel.setText(
                     f"{self.first_digit} {self.action} {self.sec_digit}")  # Show Digit and action on actionLabel
 
-                # If check addition
+                #If check addition
                 if self.action == '+':
                     self.answer = int(self.first_digit) + int(self.sec_digit)
 
-                # if check multilplication
+                #if check multilplication
                 else:
                     self.answer = int(self.first_digit) * int(self.sec_digit)
+
             elif self.action == '-':
-                self.first_digit = randint(3, 20)
+                self.first_digit = randint(3,20)
                 while True:
                     if self.first_digit == 3:
-                        self.sec_digit = randint(1, self.first_digit)
+                        self.sec_digit = randint(1,self.first_digit)
                     else:
                         self.sec_digit = randint(2, self.first_digit)
                     if self.sec_digit >= self.first_digit - 1:
                         continue
                     else:
                         break
+
                 self.actionLabel.setText(
                     f"{self.first_digit} {self.action} {self.sec_digit}")  # Show Digit and action on actionLabel
                 self.answer = int(self.first_digit) - int(self.sec_digit)
@@ -168,7 +196,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
                 self.actionLabel.setText(
                     f"{self.first_digit} {self.action} {self.sec_digit}")  # Show Digit and action on actionLabel
                 self.answer = int(self.first_digit) / int(self.sec_digit)
-            # Create list with wrong digits
+
+            #Create list with wrong digits
             for self.i in 0, 1, 2:
                 while True:
                     self.wrong_answer = int(self.answer) + randint(-2, 2)
@@ -180,13 +209,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
                     else:
                         self.list_answer[self.i] = int(self.wrong_answer)
                         break
-            # Create coorect
+            #Create coorect
             self.correct_button_index = randint(0, 2)
             self.list_answer[self.correct_button_index] = int(self.answer)
+
         self.create_answer_button()
 
     def create_answer_button(self):
         """Create text on answer button"""
+
         for i in range(0, 3):
             self.answer_button_group[i].setText(str(self.list_answer[i]))
 

@@ -17,7 +17,8 @@ rus = {'titleWindow': 'Тренажер по математике',
        'noAction': 'Не выбрано действие',
        'resultGroupBox': 'Результаты',
        'labelRightCount': 'Правильно',
-       'labelWrongCount': 'Не правильно'
+       'labelWrongCount': 'Не правильно',
+       'userGroupBox': 'Имя'
        }
 
 eng = {'titleWindow': 'Mathematics simulator',
@@ -39,7 +40,8 @@ eng = {'titleWindow': 'Mathematics simulator',
        'noAction': 'No action select',
        'resultGroupBox': 'Result',
        'labelRightCount': 'Right',
-       'labelWrongCount': 'Wrong'
+       'labelWrongCount': 'Wrong',
+       'userGroupBox': 'Name'
        }
 
 languages = {'Русский': rus,
