@@ -1,29 +1,27 @@
 from PyQt5 import QtWidgets
 from main_window import Ui_Dialog
-from addUser_window import Ui_AddUser
-import lang
+#from addUser_window import Ui_AddUser
+#import lang
 from sys import argv
 from random import randint
 import sqlite3
 import check_files
+import json
 
-class AddUserWindow(QtWidgets.QWidget, Ui_AddUser):
-    def __init__(self):
-        super().__init__()
-        self.setupUi(self)
-        #self.cancel.setText(self.lang)
-        self.cancel.clicked.connect(lambda: self.close())
-
-
-
-
+# class AddUserWindow(QtWidgets.QWidget, Ui_AddUser):
+#     def __init__(self):
+#         super().__init__()
+#         self.setupUi(self)
+#         #self.cancel.setText(self.lang)
+#         self.cancel.clicked.connect(lambda: self.close())
 
 class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.addUserWindow = AddUserWindow()
-        self.languages = lang.languages
+        #self.addUserWindow = AddUserWindow()
+
+        self.languages = languages
 
 
         #  Buttons
@@ -51,8 +49,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.wrong_count = 0
         self.stateCount = True
         self.counter = 0
-
-        #  Language
+        self.comboBox.setCurrentText(config['language'])
         self.change_language()
         self.home()
 
@@ -83,6 +80,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
 
     def change_language(self):
         self.language = self.comboBox.currentText()
+        config['language'] = self.language
 
         #  Title window
         self.setWindowTitle(self.languages[self.language]['titleWindow'])
@@ -255,15 +253,32 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
             self.stateCount = False
 
     def add_user(self, checked):
-        self.addUserWindow.show()
+        pass
+        #self.addUserWindow.show()
 
 
 
 
 if __name__ == "__main__":
+    #  Load languages
+    with open('lang.json') as f:
+         languages = json.load(f)
+
+    #  Load config and db
     config_path, db_path = check_files.check_platform()
-    con = sqlite3.connect(db_path)
-    app = QtWidgets.QApplication(argv)  # Новый экземпляр QApplication
-    window = MainWindow()  # Создаём объект класса ExampleApp
-    window.show()  # Показываем окно
-    app.exec_()  # и запускаем приложение
+
+    with open(config_path) as f:
+        config = json.load(f)
+
+    if 'language' not in config.keys():
+        config['language'] = list(languages.keys())[0]
+
+    app = QtWidgets.QApplication(argv)
+    window = MainWindow()
+    window.show()  #
+    app.exec_()
+
+    #  Save config
+    with open(config_path, 'w') as f:
+        json.dump(config, f, indent=4)
+        f.close()

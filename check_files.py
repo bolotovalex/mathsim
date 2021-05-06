@@ -1,5 +1,6 @@
 from platform import system as check_system
 from os import system, mkdir, path
+from json import dump
 
 
 def check_platform():
@@ -16,11 +17,15 @@ def check_platform():
         check_folder = path.exists(home_local)
         if check_folder is False:
             mkdir(home_local)
+            with open(path_to_config, 'tw', encoding='utf-8') as f:
+                dump({}, f, indent=4)
+            f.close()
 
         # Check ~/.mathsim/config.ini file
         check_config = path.exists(path_to_config)
         if check_config is False:
-            f = open(path_to_config, 'tw', encoding='utf-8')
+            with open(path_to_config, 'tw', encoding='utf-8') as f:
+                dump({}, f, indent=4)
             f.close()
 
 
@@ -35,11 +40,14 @@ def check_platform():
         path_to_db = home_local + 'mathsim.db'
         if check == 1:
             mkdir(home_local)
-            system(f'type nul > {home_local}\\config.ini')
-            mkdir(path_to_keys)
+            with open(path_to_config, 'tw', encoding='utf-8') as f:
+                dump({}, f, indent=4)
+            f.close()
+
         else:
             if path.exists(path_to_config) is False:
-                f = open(path_to_config, 'tw', encoding='utf-8')
+                with open(path_to_config, 'tw', encoding='utf-8') as f:
+                    dump({}, f, indent=4)
                 f.close()
 
     return path_to_config, path_to_db
