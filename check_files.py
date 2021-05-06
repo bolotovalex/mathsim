@@ -45,4 +45,4 @@ def check_platform():
     return path_to_config, path_to_db
 
 
-print(check_platform())
+#print(check_platform())

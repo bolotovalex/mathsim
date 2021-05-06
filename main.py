@@ -1,68 +1,85 @@
-# import PyQt5
 from PyQt5 import QtWidgets
 from main_window import Ui_Dialog
+from addUser_window import Ui_AddUser
 import lang
 from sys import argv
 from random import randint
-#import json
+import sqlite3
+import check_files
+
+class AddUserWindow(QtWidgets.QWidget, Ui_AddUser):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        #self.cancel.setText(self.lang)
+        self.cancel.clicked.connect(lambda: self.close())
+
+
+
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        self.addUserWindow = AddUserWindow()
+        self.languages = lang.languages
+
+
+        #  Buttons
         self.exitButton.clicked.connect(self.exit_action)
-        #self.examRButton.toggled.connect(self.check_mode)
         self.startButton.clicked.connect(self.start)
         self.homeButton.clicked.connect(self.home)
         self.answerButton1.clicked.connect(self.check_answer)
         self.answerButton2.clicked.connect(self.check_answer)
         self.answerButton3.clicked.connect(self.check_answer)
-        self.languages = lang.languages
+        #self.examRButton.toggled.connect(self.check_mode)
+        self.answer_button_group = [self.answerButton1, self.answerButton2, self.answerButton3]
+        self.addUserButton.clicked.connect(self.add_user)
+
+        #CheckBox
+        self.addCheckBox.click()
+
+        #  ComboBox
         self.comboBox.clear()
         for self.i in self.languages.keys():
             self.comboBox.addItem(self.i)
+        self.comboBox.currentTextChanged.connect(self.change_language)
+
+        #  Counter
         self.right_count = 0
         self.wrong_count = 0
         self.stateCount = True
-        self.change_language()
-        self.comboBox.currentTextChanged.connect(self.change_language)
-        self.answer_button_group = [self.answerButton1, self.answerButton2, self.answerButton3]
-        self.addCheckBox.click()
         self.counter = 0
-        #print(json.dumps(self.languages, indent=4))
-        #with open('lang.json', 'w', encoding='utf8') as f:
-        #    f.write(json.dumps(self.languages, indent=4, sort_keys=True))
-        #    f.close()
+
+        #  Language
+        self.change_language()
         self.home()
 
 
     def home(self):
-        self.homeButton.hide()
-        self.modeGroup.show()
-        self.actionGroup.show()
-        self.startButton.show()
-        self.statButton.show()
-        #self.vline.show()
-        self.lineLabel_2.show()
-        self.labelLanguage.show()
-        self.comboBox.show()
+        #  Hide elements
         self.actionLabel.hide()
+        self.answerLabel.hide()
         self.answerButton1.hide()
         self.answerButton2.hide()
         self.answerButton3.hide()
-        self.answerLabel.hide()
-        self.messageGroupBox.hide()
-        self.answerButton1.hide()
-        self.answerButton2.hide()
-        self.answerButton3.hide()
-        self.answerLabel.hide()
-        self.actionLabel.hide()
         self.homeButton.hide()
+        self.statButton.hide()
         self.techRButton.hide()
         self.messageGroupBox.hide()
+
+        # Show elements
+        #self.vline.show()
+        self.actionGroup.show()
+        self.comboBox.show()
+        self.labelLanguage.show()
+        self.lineLabel_2.show()
+        self.modeGroup.show()
+        self.startButton.show()
+        self.statButton.show()
         self.userGroupBox.show()
-        self.statButton.hide()
+
 
     def change_language(self):
         self.language = self.comboBox.currentText()
@@ -237,13 +254,16 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
                 self.wrong_count += 1
             self.stateCount = False
 
+    def add_user(self, checked):
+        self.addUserWindow.show()
 
-def main():
+
+
+
+if __name__ == "__main__":
+    config_path, db_path = check_files.check_platform()
+    con = sqlite3.connect(db_path)
     app = QtWidgets.QApplication(argv)  # Новый экземпляр QApplication
     window = MainWindow()  # Создаём объект класса ExampleApp
     window.show()  # Показываем окно
     app.exec_()  # и запускаем приложение
-
-
-if __name__ == "__main__":
-    main()
