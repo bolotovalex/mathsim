@@ -1,7 +1,9 @@
-from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSignal
+from PyQt5 import uic
 from main_window import Ui_Dialog
 from addUser_window import Ui_AddUser
+from exist_user_window import Ui_ExistUser
 #import lang
 from sys import argv
 from random import randint
@@ -9,7 +11,20 @@ import sqlite3
 import check_files
 import json
 
-class AddUserWindow(QtWidgets.QWidget, Ui_AddUser):
+class ExistUserWindow(QWidget, Ui_ExistUser):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.okButton.clicked.connect(lambda: self.close())
+        self.change_language()
+
+
+    def change_language(self):
+        self.language = languages[config['language']]
+        self.messageLabel.setText(self.language['existUserText'])
+
+class AddUserWindow(QWidget, Ui_AddUser):
+    pushButton = pyqtSignal(str)
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -18,19 +33,19 @@ class AddUserWindow(QtWidgets.QWidget, Ui_AddUser):
         self.change_language()
 
     def change_language(self):
-
         self.language = languages[config['language']]
         self.addUserBox.setTitle(self.language['addUserGroup'])
         self.cancel.setText(self.language['cancel'])
         self.addUser.setText(self.language['addUser'])
 
     def adduser_action(self):
-        pass
+        self.pushButton.emit(self.addUserEdit.text())
+        self.close()
 
 
 
 
-class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
+class MainWindow(QMainWindow, Ui_Dialog):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -266,7 +281,22 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
 
     def add_user_window(self):
         self.addUserWindow = AddUserWindow()
+        self.addUserWindow.pushButton[str].connect(self.add_user)
         self.addUserWindow.show()
+
+    def add_user(self, user):
+        self.user = user
+        if self.user not in users:
+            users[self.user] = {}
+            self.comboBox_2.clear()
+            for i in users:
+                self.comboBox_2.addItem(i)
+            self.comboBox_2.setCurrentText(self.user)
+        else:
+            self.existUserWindow = ExistUserWindow()
+            self.existUserWindow.show()
+
+
 
     # def add_user(self, user):
     #     self.user = user
@@ -293,10 +323,9 @@ if __name__ == "__main__":
     if 'language' not in config.keys():
         config['language'] = list(languages.keys())[0]
 
-    username = {}
-    user = ''
+    users = {}
 
-    app = QtWidgets.QApplication(argv)
+    app = QApplication(argv)
     window = MainWindow()
     window.show()  #
     app.exec_()
