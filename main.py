@@ -264,9 +264,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
                 self.wrong_count += 1
             self.stateCount = False
 
-    # def add_user_window(self):
-    #     self.addUserWindow = AddUserWindow()
-    #     self.addUserWindow.show()
+    def add_user_window(self):
+        self.addUserWindow = AddUserWindow()
+        self.addUserWindow.show()
 
     # def add_user(self, user):
     #     self.user = user
