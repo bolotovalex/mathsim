@@ -18,7 +18,10 @@ rus = {'titleWindow': 'Тренажер по математике',
        'resultGroupBox': 'Результаты',
        'labelRightCount': 'Правильно',
        'labelWrongCount': 'Не правильно',
-       'userGroupBox': 'Имя'
+       'userGroupBox': 'Имя',
+       'addUserGroup': 'Введите имя пользователя',
+       'addUser': 'Добавить',
+       'cancel': 'Отмена'
        }
 
 eng = {'titleWindow': 'Mathematics simulator',
@@ -41,7 +44,10 @@ eng = {'titleWindow': 'Mathematics simulator',
        'resultGroupBox': 'Result',
        'labelRightCount': 'Right',
        'labelWrongCount': 'Wrong',
-       'userGroupBox': 'Name'
+       'userGroupBox': 'Name',
+       'addUserGroup': 'Enter username',
+       'addUser': 'Add',
+       'cancel': 'Cancel'
        }
 
 languages = {'Русский': rus,

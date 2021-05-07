@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets
+from PyQt5.QtCore import pyqtSignal
 from main_window import Ui_Dialog
-#from addUser_window import Ui_AddUser
+from addUser_window import Ui_AddUser
 #import lang
 from sys import argv
 from random import randint
@@ -8,21 +9,32 @@ import sqlite3
 import check_files
 import json
 
-# class AddUserWindow(QtWidgets.QWidget, Ui_AddUser):
-#     def __init__(self):
-#         super().__init__()
-#         self.setupUi(self)
-#         #self.cancel.setText(self.lang)
-#         self.cancel.clicked.connect(lambda: self.close())
+class AddUserWindow(QtWidgets.QWidget, Ui_AddUser):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.cancel.clicked.connect(lambda: self.close())
+        self.addUser.clicked.connect(self.adduser_action)
+        self.change_language()
+
+    def change_language(self):
+
+        self.language = languages[config['language']]
+        self.addUserBox.setTitle(self.language['addUserGroup'])
+        self.cancel.setText(self.language['cancel'])
+        self.addUser.setText(self.language['addUser'])
+
+    def adduser_action(self):
+        pass
+
+
+
 
 class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        #self.addUserWindow = AddUserWindow()
-
         self.languages = languages
-
 
         #  Buttons
         self.exitButton.clicked.connect(self.exit_action)
@@ -33,7 +45,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
         self.answerButton3.clicked.connect(self.check_answer)
         #self.examRButton.toggled.connect(self.check_mode)
         self.answer_button_group = [self.answerButton1, self.answerButton2, self.answerButton3]
-        self.addUserButton.clicked.connect(self.add_user)
+        self.addUserButton.clicked.connect(self.add_user_window)
 
         #CheckBox
         self.addCheckBox.click()
@@ -252,9 +264,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_Dialog):
                 self.wrong_count += 1
             self.stateCount = False
 
-    def add_user(self, checked):
-        pass
-        #self.addUserWindow.show()
+    # def add_user_window(self):
+    #     self.addUserWindow = AddUserWindow()
+    #     self.addUserWindow.show()
+
+    # def add_user(self, user):
+    #     self.user = user
+    #
+    #
+    # def asd(self):
+    #     print(self.user)
+
 
 
 
@@ -272,6 +292,9 @@ if __name__ == "__main__":
 
     if 'language' not in config.keys():
         config['language'] = list(languages.keys())[0]
+
+    username = {}
+    user = ''
 
     app = QtWidgets.QApplication(argv)
     window = MainWindow()
