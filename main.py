@@ -71,6 +71,9 @@ class MainWindow(QMainWindow, Ui_Dialog):
             self.comboBox.addItem(self.i)
         self.comboBox.currentTextChanged.connect(self.change_language)
 
+        #  checkBox_2
+        self.comboBox_2.currentTextChanged.connect(self.change_user)
+
         #  Counter
         self.right_count = 0
         self.wrong_count = 0
@@ -79,6 +82,11 @@ class MainWindow(QMainWindow, Ui_Dialog):
         self.comboBox.setCurrentText(config['language'])
         self.change_language()
         self.home()
+
+
+
+    def change_user(self):
+        config['user'] = self.comboBox_2.currentText()
 
 
     def home(self):
@@ -103,15 +111,18 @@ class MainWindow(QMainWindow, Ui_Dialog):
         self.startButton.show()
         self.statButton.show()
         self.userGroupBox.show()
-        self.rebase_user_box()
+        if len(users) == 0:
+            config['user'] = None
+        else:
+            self.rebase_user_box()
 
     def rebase_user_box(self):
-        self.comboBox_2.clear()
-        for i in users:
-            self.comboBox_2.addItem(i)
+        print(users)
+        if len(users) != 0:
+            self.comboBox_2.clear()
+            for i in users:
+                self.comboBox_2.addItem(i)
         #self.comboBox_2.setCurrentText(self.user)
-
-
 
     def change_language(self):
         self.language = self.comboBox.currentText()
@@ -297,10 +308,13 @@ class MainWindow(QMainWindow, Ui_Dialog):
         self.user = user
         if self.user not in users:
             users[self.user] = {}
-            self.comboBox_2.clear()
-            for i in users:
-                self.comboBox_2.addItem(i)
+            # self.comboBox_2.clear()
+            # print(users)
+            # for i in users:
+            #     print(i)
+            #     self.comboBox_2.addItem(i)
             self.comboBox_2.setCurrentText(self.user)
+            users[self.user] = {'right': 0, 'wrong': 0}
             cursor.execute(f"INSERT INTO mathsim('username','right','wrong') VALUES('{self.user}','0','0')")
             con.commit()
             self.rebase_user_box()
@@ -316,10 +330,13 @@ if __name__ == "__main__":
     #  Load config and db
     config_path, db_path = check_files.check_platform()
     db_path = 'db.db'
+
     with open(config_path) as f:
         config = json.load(f)
+
     if 'language' not in config.keys():
         config['language'] = list(languages.keys())[0]
+
     con = sqlite3.connect(db_path)
     cursor = con.cursor()
     cursor.execute(''' CREATE TABLE IF NOT EXISTS mathsim (
@@ -331,8 +348,12 @@ if __name__ == "__main__":
     list_users = cursor.fetchall()
 
     users = {}
-    for i in  list_users:
-        users[i[1]] = {'right': i[2], 'wrong': i[3]}
+
+    if len(list_users) != 0:
+        for i in list_users:
+            users[i[1]] = {'right': i[2], 'wrong': i[3]}
+
+
 
     app = QApplication(argv)
     window = MainWindow()
@@ -340,6 +361,7 @@ if __name__ == "__main__":
     app.exec_()
 
     #  Save config
+    print(config)
     with open(config_path, 'w') as f:
         json.dump(config, f, indent=4)
         f.close()
