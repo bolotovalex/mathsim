@@ -68,24 +68,39 @@ class MainWindow(QMainWindow, Ui_Dialog):
             self.comboBox.addItem(self.i)
         self.comboBox.currentTextChanged.connect(self.change_language)
 
-        #  ComboBox_2 - Select user
-        for self.user in config['users']:
-            self.comboBox_2.addItem((self.user.title()))
-        self.comboBox_2.setCurrentText(config['last_user'].title())
-        self.comboBox_2.currentTextChanged.connect(self.change_user)
-
-
         #  Counter
-        self.right_count = 0
-        self.wrong_count = 0
+        if len(users) > 0:
+            self.right_count = config['users'][config['last_user']]['right']
+            self.wrong_count = config['users'][config['last_user']]['wrong']
+        else:
+            self.right_count = 0
+            self.wrong_count = 0
+
         self.stateCount = True
         self.counter = 0
         self.comboBox.setCurrentText(config['language'])
         self.change_language()
         self.home()
 
+        #  ComboBox_2 - Select user
+        for self.user in config['users']:
+            self.comboBox_2.addItem((self.user.title()))
+        self.comboBox_2.setCurrentText(config['last_user'].title())
+        self.comboBox_2.currentTextChanged.connect(self.change_user)
+
+        self.update_counter()
+
     def change_user(self):
         config['last_user'] = self.comboBox_2.currentText().lower()
+        # if len(users) > 0:
+        self.right_count = config['users'][config['last_user']]['right']
+        self.wrong_count = config['users'][config['last_user']]['wrong']
+        self.update_counter()
+
+    def update_counter(self):
+        self.labelRightCount.setText(f"{self.languages[self.language]['labelRightCount']}: {self.right_count}")
+        self.labelWrongCount.setText(f"{self.languages[self.language]['labelWrongCount']}: {self.wrong_count}")
+
 
     def home(self):
         #  Hide elements
@@ -107,7 +122,7 @@ class MainWindow(QMainWindow, Ui_Dialog):
         self.lineLabel_2.show()
         self.modeGroup.show()
         self.startButton.show()
-        self.statButton.show()
+        self.statButton.hide() #self.statButton.show()
         self.userGroupBox.show()
 
 
@@ -277,6 +292,7 @@ class MainWindow(QMainWindow, Ui_Dialog):
         if sender.objectName() == self.answer_button_group[self.correct_button_index].objectName():
             if self.stateCount is not False:
                 self.right_count += 1
+                config['users'][config['last_user']]['right'] = self.right_count
             self.stateCount = True
             self.start_action()
         else:
@@ -285,6 +301,7 @@ class MainWindow(QMainWindow, Ui_Dialog):
                 pass
             else:
                 self.wrong_count += 1
+                config['users'][config['last_user']]['wrong'] = self.wrong_count
             self.stateCount = False
 
     def add_user_window(self):
@@ -320,8 +337,8 @@ if __name__ == "__main__":
     with open(config_path) as f:
         config = json.load(f)
 
-    if 'language' not in config.keys():
-        config['language'] = list(languages.keys())[0]
+    if 'last_language' not in config.keys():
+        config['last_language'] = list(languages.keys())[0]
 
     users = {}
     if 'users' not in config.keys():
