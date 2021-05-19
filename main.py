@@ -9,28 +9,24 @@ from random import randint
 import check_files
 import json
 
+
 class ExistUserWindow(QWidget, Ui_ExistUser):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         self.okButton.clicked.connect(lambda: self.close())
-        self.change_language()
-
-
-    def change_language(self):
-        self.language = languages[config['language']]
+        self.language = languages[config['last_language']]
         self.messageLabel.setText(self.language['existUserText'])
+
 
 class AddUserWindow(QWidget, Ui_AddUser):
     pushButton = pyqtSignal(str)
+
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         self.cancel.clicked.connect(lambda: self.close())
         self.addUser.clicked.connect(self.adduser_action)
-        self.change_language()
-
-    def change_language(self):
         self.language = languages[config['last_language']]
         self.addUserBox.setTitle(self.language['addUserGroup'])
         self.cancel.setText(self.language['cancel'])
@@ -39,8 +35,6 @@ class AddUserWindow(QWidget, Ui_AddUser):
     def adduser_action(self):
         self.pushButton.emit(self.addUserEdit.text())
         self.close()
-
-
 
 
 class MainWindow(QMainWindow, Ui_Dialog):
@@ -56,11 +50,11 @@ class MainWindow(QMainWindow, Ui_Dialog):
         self.answerButton1.clicked.connect(self.check_answer)
         self.answerButton2.clicked.connect(self.check_answer)
         self.answerButton3.clicked.connect(self.check_answer)
-        #self.easyRButton.toggled.connect(self.check_mode)
+        # self.easyRButton.toggled.connect(self.check_mode)
         self.answer_button_group = [self.answerButton1, self.answerButton2, self.answerButton3]
         self.addUserButton.clicked.connect(self.add_user_window)
 
-        #CheckBox
+        # CheckBox
         self.addCheckBox.click()
         #  ComboBox - Select Language
         self.comboBox.clear()
@@ -84,24 +78,23 @@ class MainWindow(QMainWindow, Ui_Dialog):
 
         #  ComboBox_2 - Select user
         for self.user in config['users']:
-            self.comboBox_2.addItem((self.user.title()))
-        self.comboBox_2.setCurrentText(config['last_user'].title())
+            self.comboBox_2.addItem(self.user)
+        self.comboBox_2.setCurrentText(config['last_user'])
         self.comboBox_2.currentTextChanged.connect(self.change_user)
         self.selectUserLabel.hide()
         self.update_counter()
 
     def change_user(self):
-        config['last_user'] = self.comboBox_2.currentText().lower()
-        # if len(users) > 0:
-        self.right_count = config['users'][config['last_user']]['right']
-        self.wrong_count = config['users'][config['last_user']]['wrong']
-        self.selectUserLabel.setText(config['last_user'].title())
-        self.update_counter()
+        config['last_user'] = self.comboBox_2.currentText()
+        if len(config['last_user']) > 0:
+            self.right_count = config['users'][config['last_user']]['right']
+            self.wrong_count = config['users'][config['last_user']]['wrong']
+            self.selectUserLabel.setText(config['last_user'])
+            self.update_counter()
 
     def update_counter(self):
         self.labelRightCount.setText(f"{self.languages[self.language]['labelRightCount']}: {self.right_count}")
         self.labelWrongCount.setText(f"{self.languages[self.language]['labelWrongCount']}: {self.wrong_count}")
-
 
     def home(self):
         #  Hide elements
@@ -116,18 +109,17 @@ class MainWindow(QMainWindow, Ui_Dialog):
         self.selectUserLabel.hide()
 
         # Show elements
-        #self.vline.show()
+        # self.vline.show()
         self.actionGroup.show()
         self.comboBox.show()
         self.labelLanguage.show()
         self.lineLabel_2.show()
         self.modeGroup.show()
         self.startButton.show()
-        self.statButton.hide() #self.statButton.show()
+        self.statButton.hide()  # self.statButton.show()
         self.comboBox_2.show()
         self.addUserButton.show()
-        #self.userGroupBox.show()
-
+        # self.userGroupBox.show()
 
     def change_language(self):
         self.language = self.comboBox.currentText()
@@ -143,8 +135,8 @@ class MainWindow(QMainWindow, Ui_Dialog):
         self.exitButton.setText(self.languages[self.language]['exitButton'])
         self.homeButton.setText(self.languages[self.language]['homeButton'])
         self.startButton.setText(self.languages[self.language]['startButton'])
-        #self.mediumRButton.setText(self.languages[self.language]['mediumRButton'])
-        #self.statButton.setText(self.languages[self.language]['statButton'])
+        # self.mediumRButton.setText(self.languages[self.language]['mediumRButton'])
+        # self.statButton.setText(self.languages[self.language]['statButton'])
 
         #  Action group box
         self.actionGroup.setTitle(self.languages[self.language]['actionGroup'])
@@ -167,8 +159,6 @@ class MainWindow(QMainWindow, Ui_Dialog):
         # User group box
         self.userGroupBox.setTitle(self.languages[self.language]['userGroupBox'])
 
-
-
     def exit_action(self):
         self.close()
 
@@ -178,7 +168,7 @@ class MainWindow(QMainWindow, Ui_Dialog):
         self.actionGroup.hide()
         self.startButton.hide()
         self.statButton.hide()
-        #self.vline.hide()
+        # self.vline.hide()
         self.lineLabel_2.hide()
         self.labelLanguage.hide()
         self.comboBox.hide()
@@ -196,7 +186,7 @@ class MainWindow(QMainWindow, Ui_Dialog):
 
         self.addUserButton.hide()
         self.comboBox_2.hide()
-        self.selectUserLabel.setText(config['last_user'].title())
+        self.selectUserLabel.setText(config['last_user'])
         self.selectUserLabel.show()
 
         self.messageGroupBox.show()
@@ -229,31 +219,30 @@ class MainWindow(QMainWindow, Ui_Dialog):
             if self.divCheckBox.isChecked() is True:
                 self.list_action.append('/')
 
-
             self.action = self.list_action[randint(0, len(self.list_action) - 1)]  # Check number of actions
             self.list_answer = [0 for self.i in
                                 range(3)]  # Create answer list for right and wrong answer for button
 
-            #If checked addition and/or multiplication checkbox
+            # If checked addition and/or multiplication checkbox
             if self.action == '+' or self.action == '*':
                 self.first_digit = randint(2, 10)
                 self.sec_digit = randint(2, 10)
                 self.actionLabel.setText(
                     f"{self.first_digit} {self.action} {self.sec_digit}")  # Show Digit and action on actionLabel
 
-                #If check addition
+                # If check addition
                 if self.action == '+':
                     self.answer = int(self.first_digit) + int(self.sec_digit)
 
-                #if check multiplication
+                # if check multiplication
                 else:
                     self.answer = int(self.first_digit) * int(self.sec_digit)
 
             elif self.action == '-':
-                self.first_digit = randint(3,20)
+                self.first_digit = randint(3, 20)
                 while True:
                     if self.first_digit == 3:
-                        self.sec_digit = randint(1,self.first_digit)
+                        self.sec_digit = randint(1, self.first_digit)
                     else:
                         self.sec_digit = randint(2, self.first_digit)
                     if self.sec_digit >= self.first_digit - 1:
@@ -272,7 +261,7 @@ class MainWindow(QMainWindow, Ui_Dialog):
                     f"{self.first_digit} {self.action} {self.sec_digit}")  # Show Digit and action on actionLabel
                 self.answer = int(self.first_digit) / int(self.sec_digit)
 
-            #Create list with wrong digits
+            # Create list with wrong digits
             for self.i in 0, 1, 2:
                 while True:
                     self.wrong_answer = int(self.answer) + randint(-2, 2)
@@ -284,7 +273,7 @@ class MainWindow(QMainWindow, Ui_Dialog):
                     else:
                         self.list_answer[self.i] = int(self.wrong_answer)
                         break
-            #Create correct
+            # Create correct
             self.correct_button_index = randint(0, 2)
             self.list_answer[self.correct_button_index] = int(self.answer)
 
@@ -320,25 +309,24 @@ class MainWindow(QMainWindow, Ui_Dialog):
         self.addUserWindow.show()
 
     def add_user(self, user):
-        self.user = user.lower()
+        self.user = user
+
         if self.user not in users:
-            users[self.user] = {'right': 0, 'wrong': 0}
+            users[self.user] = {'right': 0, 'wrong': 0, 'last_difficult': 0}
+            config['users'][self.user] = {'right': 0, 'wrong': 0, 'last_difficult': 0}
+            config['last_user'] = self.user
             self.comboBox_2.clear()
-            for i in users:
-                self.comboBox_2.addItem(i.title())
+            for self.i in users:
+                self.comboBox_2.addItem(self.i)
             config['users'] = users
         else:
             self.existUserWindow = ExistUserWindow()
             self.existUserWindow.show()
-        self.comboBox_2.setCurrentText(self.user.title())
 
-
+        self.comboBox_2.setCurrentText(self.user)
 
 
 if __name__ == "__main__":
-    #  Load languages
-    # with open('lang.json') as f:
-    #      languages = json.load(f)
     languages = lang.languages
 
     #  Load config and db
