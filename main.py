@@ -31,7 +31,7 @@ class AddUserWindow(QWidget, Ui_AddUser):
         self.change_language()
 
     def change_language(self):
-        self.language = languages[config['language']]
+        self.language = languages[config['last_language']]
         self.addUserBox.setTitle(self.language['addUserGroup'])
         self.cancel.setText(self.language['cancel'])
         self.addUser.setText(self.language['addUser'])
@@ -56,7 +56,7 @@ class MainWindow(QMainWindow, Ui_Dialog):
         self.answerButton1.clicked.connect(self.check_answer)
         self.answerButton2.clicked.connect(self.check_answer)
         self.answerButton3.clicked.connect(self.check_answer)
-        #self.examRButton.toggled.connect(self.check_mode)
+        #self.easyRButton.toggled.connect(self.check_mode)
         self.answer_button_group = [self.answerButton1, self.answerButton2, self.answerButton3]
         self.addUserButton.clicked.connect(self.add_user_window)
 
@@ -78,7 +78,7 @@ class MainWindow(QMainWindow, Ui_Dialog):
 
         self.stateCount = True
         self.counter = 0
-        self.comboBox.setCurrentText(config['language'])
+        self.comboBox.setCurrentText(config['last_language'])
         self.change_language()
         self.home()
 
@@ -87,7 +87,7 @@ class MainWindow(QMainWindow, Ui_Dialog):
             self.comboBox_2.addItem((self.user.title()))
         self.comboBox_2.setCurrentText(config['last_user'].title())
         self.comboBox_2.currentTextChanged.connect(self.change_user)
-
+        self.selectUserLabel.hide()
         self.update_counter()
 
     def change_user(self):
@@ -95,6 +95,7 @@ class MainWindow(QMainWindow, Ui_Dialog):
         # if len(users) > 0:
         self.right_count = config['users'][config['last_user']]['right']
         self.wrong_count = config['users'][config['last_user']]['wrong']
+        self.selectUserLabel.setText(config['last_user'].title())
         self.update_counter()
 
     def update_counter(self):
@@ -111,8 +112,8 @@ class MainWindow(QMainWindow, Ui_Dialog):
         self.answerButton3.hide()
         self.homeButton.hide()
         self.statButton.hide()
-        self.techRButton.hide()
         self.messageGroupBox.hide()
+        self.selectUserLabel.hide()
 
         # Show elements
         #self.vline.show()
@@ -123,12 +124,14 @@ class MainWindow(QMainWindow, Ui_Dialog):
         self.modeGroup.show()
         self.startButton.show()
         self.statButton.hide() #self.statButton.show()
-        self.userGroupBox.show()
+        self.comboBox_2.show()
+        self.addUserButton.show()
+        #self.userGroupBox.show()
 
 
     def change_language(self):
         self.language = self.comboBox.currentText()
-        config['language'] = self.language
+        config['last_language'] = self.language
 
         #  Title window
         self.setWindowTitle(self.languages[self.language]['titleWindow'])
@@ -140,8 +143,8 @@ class MainWindow(QMainWindow, Ui_Dialog):
         self.exitButton.setText(self.languages[self.language]['exitButton'])
         self.homeButton.setText(self.languages[self.language]['homeButton'])
         self.startButton.setText(self.languages[self.language]['startButton'])
-        self.techRButton.setText(self.languages[self.language]['teachRButton'])
-        self.statButton.setText(self.languages[self.language]['statButton'])
+        #self.mediumRButton.setText(self.languages[self.language]['mediumRButton'])
+        #self.statButton.setText(self.languages[self.language]['statButton'])
 
         #  Action group box
         self.actionGroup.setTitle(self.languages[self.language]['actionGroup'])
@@ -152,7 +155,9 @@ class MainWindow(QMainWindow, Ui_Dialog):
 
         # Mode group box
         self.modeGroup.setTitle(self.languages[self.language]['modeGroup'])
-        self.examRButton.setText(self.languages[self.language]['examRButton'])
+        self.easyRButton.setText(self.languages[self.language]['easyRButton'])
+        self.mediumRButton.setText(self.languages[self.language]['mediumRButton'])
+        self.hardRButton.setText(self.languages[self.language]['hardRButton'])
 
         #  Result Group box
         self.resultGroupBox.setTitle(self.languages[self.language]['resultGroupBox'])
@@ -188,7 +193,12 @@ class MainWindow(QMainWindow, Ui_Dialog):
         self.answerButton3.show()
         self.answerLabel.show()
         self.answerLabel.setText('')
-        self.userGroupBox.hide()
+
+        self.addUserButton.hide()
+        self.comboBox_2.hide()
+        self.selectUserLabel.setText(config['last_user'].title())
+        self.selectUserLabel.show()
+
         self.messageGroupBox.show()
         self.start_action()
 

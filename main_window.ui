@@ -289,7 +289,7 @@
    <property name="title">
     <string>modeGroup</string>
    </property>
-   <widget class="QRadioButton" name="techRButton">
+   <widget class="QRadioButton" name="mediumRButton">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -304,10 +304,10 @@
      </font>
     </property>
     <property name="text">
-     <string>teachRadioButton</string>
+     <string>mediumRButton</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="examRButton">
+   <widget class="QRadioButton" name="easyRButton">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -322,13 +322,31 @@
      </font>
     </property>
     <property name="text">
-     <string>examRadioButton</string>
+     <string>easyRadioButton</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
     </property>
     <property name="checked">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="hardRButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>259</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>hardRButton</string>
     </property>
    </widget>
   </widget>
@@ -582,6 +600,24 @@
     </property>
    </widget>
   </widget>
+  <widget class="QLabel" name="selectUserLabel">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>360</y>
+     <width>191</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>selectUserLabel</string>
+   </property>
+  </widget>
   <zorder>resultGroupBox</zorder>
   <zorder>homeButton</zorder>
   <zorder>mainLabel</zorder>
@@ -604,6 +640,7 @@
   <zorder>labelRightCount</zorder>
   <zorder>messageGroupBox</zorder>
   <zorder>userGroupBox</zorder>
+  <zorder>selectUserLabel</zorder>
  </widget>
  <resources/>
  <connections/>
