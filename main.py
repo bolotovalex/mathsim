@@ -54,8 +54,16 @@ class MainWindow(QMainWindow, Ui_Dialog):
         self.answer_button_group = [self.answerButton1, self.answerButton2, self.answerButton3]
         self.addUserButton.clicked.connect(self.add_user_window)
 
+        # Difficult mode select
+        self.easyRButton.clicked.connect(self.change_difficult)
+        self.mediumRButton.clicked.connect(self.change_difficult)
+        self.hardRButton.clicked.connect(self.change_difficult)
+
+
         # CheckBox
         self.addCheckBox.click()
+
+
         #  ComboBox - Select Language
         self.comboBox.clear()
         for self.i in self.languages.keys():
@@ -79,16 +87,44 @@ class MainWindow(QMainWindow, Ui_Dialog):
         #  ComboBox_2 - Select user
         for self.user in config['users']:
             self.comboBox_2.addItem(self.user)
+        self.difficult = config['users'][config['last_user']]['last_difficult']
+        if self.difficult == 0:
+            self.easyRButton.click()
+        elif self.difficult == 1:
+            self.mediumRButton.click()
+        elif self.difficult == 2:
+            self.hardRButton.click()
         self.comboBox_2.setCurrentText(config['last_user'])
         self.comboBox_2.currentTextChanged.connect(self.change_user)
         self.selectUserLabel.hide()
         self.update_counter()
+
+    def change_difficult(self):
+        if self.easyRButton.isChecked():
+            self.difficult = 0
+        elif self.mediumRButton.isChecked():
+            self.difficult = 1
+        elif self.hardRButton.isChecked():
+            self.difficult = 2
+
+        if len(config['users']) > 0:
+            config['users'][config['last_user']]['last_difficult'] = self.difficult
+
 
     def change_user(self):
         config['last_user'] = self.comboBox_2.currentText()
         if len(config['last_user']) > 0:
             self.right_count = config['users'][config['last_user']]['right']
             self.wrong_count = config['users'][config['last_user']]['wrong']
+            self.difficult = config['users'][config['last_user']]['last_difficult']
+
+            if self.difficult == 0:
+                self.easyRButton.click()
+            elif self.difficult == 1:
+                self.mediumRButton.click()
+            elif self.difficult == 2:
+                self.hardRButton.click()
+
             self.selectUserLabel.setText(config['last_user'])
             self.update_counter()
 
