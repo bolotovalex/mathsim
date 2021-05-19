@@ -1,6 +1,5 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSignal
-from PyQt5 import uic
 from main_window import Ui_Dialog
 from addUser_window import Ui_AddUser
 from exist_user_window import Ui_ExistUser
@@ -111,7 +110,7 @@ class MainWindow(QMainWindow, Ui_Dialog):
         #  Title window
         self.setWindowTitle(self.languages[self.language]['titleWindow'])
 
-        #  Main Lbael
+        #  Main Label
         self.mainLabel.setText(self.languages[self.language]['mainLabel'])
 
         #  Buttons
@@ -211,7 +210,7 @@ class MainWindow(QMainWindow, Ui_Dialog):
                 if self.action == '+':
                     self.answer = int(self.first_digit) + int(self.sec_digit)
 
-                #if check multilplication
+                #if check multiplication
                 else:
                     self.answer = int(self.first_digit) * int(self.sec_digit)
 
@@ -250,7 +249,7 @@ class MainWindow(QMainWindow, Ui_Dialog):
                     else:
                         self.list_answer[self.i] = int(self.wrong_answer)
                         break
-            #Create coorect
+            #Create correct
             self.correct_button_index = randint(0, 2)
             self.list_answer[self.correct_button_index] = int(self.answer)
 
@@ -284,16 +283,17 @@ class MainWindow(QMainWindow, Ui_Dialog):
         self.addUserWindow.show()
 
     def add_user(self, user):
-        self.user = user
+        self.user = user.lower()
         if self.user not in users:
-            users[self.user] = {}
+            users[self.user] = {'right': 0, 'wrong': 0}
             self.comboBox_2.clear()
             for i in users:
-                self.comboBox_2.addItem(i)
-            self.comboBox_2.setCurrentText(self.user)
+                self.comboBox_2.addItem(i.title())
         else:
             self.existUserWindow = ExistUserWindow()
             self.existUserWindow.show()
+        self.comboBox_2.setCurrentText(self.user.title())
+
 
 
 
