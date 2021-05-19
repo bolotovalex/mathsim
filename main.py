@@ -62,12 +62,18 @@ class MainWindow(QMainWindow, Ui_Dialog):
 
         #CheckBox
         self.addCheckBox.click()
-
-        #  ComboBox
+        #  ComboBox - Select Language
         self.comboBox.clear()
         for self.i in self.languages.keys():
             self.comboBox.addItem(self.i)
         self.comboBox.currentTextChanged.connect(self.change_language)
+
+        #  ComboBox_2 - Select user
+        for self.user in config['users']:
+            self.comboBox_2.addItem((self.user.title()))
+        self.comboBox_2.setCurrentText(config['last_user'].title())
+        self.comboBox_2.currentTextChanged.connect(self.change_user)
+
 
         #  Counter
         self.right_count = 0
@@ -78,6 +84,8 @@ class MainWindow(QMainWindow, Ui_Dialog):
         self.change_language()
         self.home()
 
+    def change_user(self):
+        config['last_user'] = self.comboBox_2.currentText().lower()
 
     def home(self):
         #  Hide elements
@@ -138,6 +146,8 @@ class MainWindow(QMainWindow, Ui_Dialog):
 
         # User group box
         self.userGroupBox.setTitle(self.languages[self.language]['userGroupBox'])
+
+
 
     def exit_action(self):
         self.close()
@@ -289,6 +299,7 @@ class MainWindow(QMainWindow, Ui_Dialog):
             self.comboBox_2.clear()
             for i in users:
                 self.comboBox_2.addItem(i.title())
+            config['users'] = users
         else:
             self.existUserWindow = ExistUserWindow()
             self.existUserWindow.show()
@@ -313,6 +324,14 @@ if __name__ == "__main__":
         config['language'] = list(languages.keys())[0]
 
     users = {}
+    if 'users' not in config.keys():
+        config['users'] = {}
+    else:
+        for user in config['users']:
+            users[user] = config['users'][user]
+
+    if 'last_user' not in config.keys():
+        config['last_user'] = ''
 
     app = QApplication(argv)
     window = MainWindow()
