@@ -1,13 +1,12 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSignal
-from main_window import Ui_Dialog
-from addUser_window import Ui_AddUser
-from exist_user_window import Ui_ExistUser
-import lang
+from gui.main_window import Ui_Dialog
+from gui.addUser_window import Ui_AddUser
+from gui.exist_user_window import Ui_ExistUser
 from sys import argv
 from random import randint
 import json
-from include import get_digit, check_files
+from include import get_digit, check_files, lang
 
 
 class ExistUserWindow(QWidget, Ui_ExistUser):
