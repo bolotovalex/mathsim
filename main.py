@@ -6,8 +6,8 @@ from exist_user_window import Ui_ExistUser
 import lang
 from sys import argv
 from random import randint
-import check_files
 import json
+from include import get_digit, check_files
 
 
 class ExistUserWindow(QWidget, Ui_ExistUser):
@@ -87,7 +87,12 @@ class MainWindow(QMainWindow, Ui_Dialog):
         #  ComboBox_2 - Select user
         for self.user in config['users']:
             self.comboBox_2.addItem(self.user)
-        self.difficult = config['users'][config['last_user']]['last_difficult']
+
+        if len(config['users']) > 0:
+            self.difficult = config['users'][config['last_user']]['last_difficult']
+        else:
+            self.difficult = 0
+
         if self.difficult == 0:
             self.easyRButton.click()
         elif self.difficult == 1:
@@ -256,53 +261,23 @@ class MainWindow(QMainWindow, Ui_Dialog):
                 self.list_action.append('/')
 
             self.action = self.list_action[randint(0, len(self.list_action) - 1)]  # Check number of actions
+
             self.list_answer = [0 for self.i in
                                 range(3)]  # Create answer list for right and wrong answer for button
 
-            # If checked addition and/or multiplication checkbox
-            if self.action == '+' or self.action == '*':
-                self.first_digit = randint(2, 10)
-                self.sec_digit = randint(2, 10)
-                self.actionLabel.setText(
-                    f"{self.first_digit} {self.action} {self.sec_digit}")  # Show Digit and action on actionLabel
+            self.digits = get_digit.get_digit_dictionary(self.difficult, self.action)
 
-                # If check addition
-                if self.action == '+':
-                    self.answer = int(self.first_digit) + int(self.sec_digit)
 
-                # if check multiplication
-                else:
-                    self.answer = int(self.first_digit) * int(self.sec_digit)
+            self.actionLabel.setText(
+                f"{self.digits['first_digit']} {self.action} {self.digits['sec_digit']}")  # Show Digit and action on actionLabel
 
-            elif self.action == '-':
-                self.first_digit = randint(3, 20)
-                while True:
-                    if self.first_digit == 3:
-                        self.sec_digit = randint(1, self.first_digit)
-                    else:
-                        self.sec_digit = randint(2, self.first_digit)
-                    if self.sec_digit >= self.first_digit - 1:
-                        continue
-                    else:
-                        break
 
-                self.actionLabel.setText(
-                    f"{self.first_digit} {self.action} {self.sec_digit}")  # Show Digit and action on actionLabel
-                self.answer = int(self.first_digit) - int(self.sec_digit)
-
-            elif self.action == '/':
-                self.sec_digit = randint(2, 10)
-                self.first_digit = randint(2, 10) * self.sec_digit
-                self.actionLabel.setText(
-                    f"{self.first_digit} {self.action} {self.sec_digit}")  # Show Digit and action on actionLabel
-                self.answer = int(self.first_digit) / int(self.sec_digit)
-
-            # Create list with wrong digits
+                # Create list with wrong digits
             for self.i in 0, 1, 2:
                 while True:
-                    self.wrong_answer = int(self.answer) + randint(-2, 2)
+                    self.wrong_answer = self.digits['right_answer'] + randint(-2, 2)
                     # If answer in list or == right answer -> continue
-                    if self.wrong_answer == self.answer or self.wrong_answer in self.list_answer:
+                    if self.wrong_answer == self.digits['right_answer'] or self.wrong_answer in self.list_answer:
                         continue
                     elif self.wrong_answer <= 0:
                         continue
@@ -311,7 +286,7 @@ class MainWindow(QMainWindow, Ui_Dialog):
                         break
             # Create correct
             self.correct_button_index = randint(0, 2)
-            self.list_answer[self.correct_button_index] = int(self.answer)
+            self.list_answer[self.correct_button_index] = int(self.digits['right_answer'])
 
         self.create_answer_button()
 
