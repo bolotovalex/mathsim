@@ -305,7 +305,7 @@ class MainWindow(QMainWindow, Ui_Dialog):
             self.stateCount = True
             self.start_action()
         else:
-            self.answerLabel.setText(f'{self.languages[self.language]["wrongAnswer"]} {int(self.answer)}')
+            self.answerLabel.setText(f'{self.languages[self.language]["wrongAnswer"]} {self.digits["right_answer"]}')
             if self.stateCount is False:
                 pass
             else:
