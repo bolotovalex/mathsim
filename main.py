@@ -301,7 +301,8 @@ class MainWindow(QMainWindow, Ui_Dialog):
         if sender.objectName() == self.answer_button_group[self.correct_button_index].objectName():
             if self.stateCount is not False:
                 self.right_count += 1
-                config['users'][config['last_user']]['right'] = self.right_count
+                if len(config['last_user']) != 0:
+                    config['users'][config['last_user']]['right'] = self.right_count
             self.stateCount = True
             self.start_action()
         else:
@@ -310,7 +311,8 @@ class MainWindow(QMainWindow, Ui_Dialog):
                 pass
             else:
                 self.wrong_count += 1
-                config['users'][config['last_user']]['wrong'] = self.wrong_count
+                if len(config['last_user']) != 0:
+                    config['users'][config['last_user']]['wrong'] = self.wrong_count
             self.stateCount = False
 
     def add_user_window(self):
