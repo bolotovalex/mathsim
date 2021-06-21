@@ -7,6 +7,8 @@ from sys import argv
 from random import randint
 import json
 from include import get_digit, check_files, lang
+from threading import Thread
+from time import sleep
 
 
 class ExistUserWindow(QWidget, Ui_ExistUser):
@@ -286,6 +288,7 @@ class MainWindow(QMainWindow, Ui_Dialog):
             # Create correct
             self.correct_button_index = randint(0, 2)
             self.list_answer[self.correct_button_index] = int(self.digits['right_answer'])
+        self.timer = timer_t
 
         self.create_answer_button()
 
@@ -298,21 +301,30 @@ class MainWindow(QMainWindow, Ui_Dialog):
     def check_answer(self):
         """Check answer when button clicked"""
         sender = self.sender()
-        if sender.objectName() == self.answer_button_group[self.correct_button_index].objectName():
-            if self.stateCount is not False:
-                self.right_count += 1
-                if len(config['last_user']) != 0:
+        if timer_t <= self.timer + 3:
+            if sender.objectName() == self.answer_button_group[self.correct_button_index].objectName():
+                # print(f"self: {self.timer}, global:{timer_t}")
+                if self.stateCount is not False:
+                    self.right_count += 1
                     config['users'][config['last_user']]['right'] = self.right_count
-            self.stateCount = True
-            self.start_action()
+                self.stateCount = True
+                self.start_action()
+            else:
+                self.answerLabel.setText(f'{self.languages[self.language]["wrongAnswer"]} {self.digits["right_answer"]}')
+                if self.stateCount is False:
+                    pass
+                else:
+                    self.wrong_count += 1
+                    config['users'][config['last_user']]['wrong'] = self.wrong_count
+                self.stateCount = False
         else:
-            self.answerLabel.setText(f'{self.languages[self.language]["wrongAnswer"]} {self.digits["right_answer"]}')
+            self.timer = timer_t
+            self.answerLabel.setText(f'{self.languages[self.language]["time_out"]} {self.digits["right_answer"]}')
             if self.stateCount is False:
                 pass
             else:
                 self.wrong_count += 1
-                if len(config['last_user']) != 0:
-                    config['users'][config['last_user']]['wrong'] = self.wrong_count
+                # config['users'][config['last_user']]['wrong'] = self.wrong_count
             self.stateCount = False
 
     def add_user_window(self):
@@ -337,6 +349,12 @@ class MainWindow(QMainWindow, Ui_Dialog):
 
         self.comboBox_2.setCurrentText(self.user)
 
+def timer():
+    global timer_t
+    while True:
+        timer_t += 1
+        sleep(1)
+        # return timer_t
 
 if __name__ == "__main__":
     languages = lang.languages
@@ -359,6 +377,12 @@ if __name__ == "__main__":
 
     if 'last_user' not in config.keys():
         config['last_user'] = ''
+
+    # Run timer
+    timer_t = int(0)
+    timer = Thread(target=timer, daemon=True)
+    timer.start()
+
 
     app = QApplication(argv)
     window = MainWindow()

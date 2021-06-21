@@ -23,7 +23,8 @@ rus = {'titleWindow': 'Тренажер по математике',
        'addUserGroup': 'Введите имя пользователя',
        'addUser': 'Добавить',
        'cancel': 'Отмена',
-       'existUserText': 'Пользователь существует'
+       'existUserText': 'Пользователь существует',
+       'time_out': 'Время вышло. Правильный ответ'
        }
 
 eng = {'titleWindow': 'Mathematics simulator',
@@ -51,7 +52,8 @@ eng = {'titleWindow': 'Mathematics simulator',
        'addUserGroup': 'Enter username',
        'addUser': 'Add',
        'cancel': 'Cancel',
-       'existUserText': 'User exist'
+       'existUserText': 'User exist',
+       'time_out': 'The time is up. Correct answer'
        }
 
 languages = {'Русский': rus,
