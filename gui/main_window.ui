@@ -57,9 +57,9 @@
   <widget class="QLabel" name="mainLabel">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>10</x>
      <y>10</y>
-     <width>380</width>
+     <width>621</width>
      <height>35</height>
     </rect>
    </property>
@@ -217,7 +217,7 @@
       <x>10</x>
       <y>30</y>
       <width>251</width>
-      <height>112</height>
+      <height>116</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_3">

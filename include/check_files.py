@@ -9,7 +9,7 @@ def check_platform():
         platform = 'unix'
         home = path.expanduser(f'~/')
         home_local = home + '.mathsim/'
-        name_config = 'config.ini'
+        name_config = 'config.json'
         path_to_config = home_local + name_config
         path_to_db = home + 'mathsim.db'
 
@@ -21,7 +21,7 @@ def check_platform():
                 dump({}, f, indent=4)
             f.close()
 
-        # Check ~/.mathsim/config.ini file
+        # Check ~/.mathsim/config.json file
         check_config = path.exists(path_to_config)
         if check_config is False:
             with open(path_to_config, 'tw', encoding='utf-8') as f:
@@ -35,7 +35,7 @@ def check_platform():
         home = path.expanduser(f"~\\")
         home_local = home + str(".mathsim\\")
         check = system(f'cd {home_local}')
-        name_config = 'config.ini'
+        name_config = 'config.json'
         path_to_config = home_local + name_config
         path_to_db = home_local + 'mathsim.db'
         if check == 1:
